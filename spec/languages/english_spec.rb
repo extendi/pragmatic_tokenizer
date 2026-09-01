@@ -703,6 +703,47 @@ describe PragmaticTokenizer do
         end
       end
 
+      context 'trailing plus' do
+        it 'keeps trailing plus on brand names' do
+          text = "I really love Disney+: is my favourite streaming platform"
+          pt = PragmaticTokenizer::Tokenizer.new(
+              language: 'en',
+              minimum_length: 2,
+              punctuation: :none,
+              remove_emoji: false,
+              remove_stop_words: false,
+              downcase: true,
+              clean: true
+          )
+          expect(pt.tokenize(text)).to eq(%w(really love disney+ is my favourite streaming platform))
+        end
+
+        it 'keeps C++ and Google+ as single tokens' do
+          text = "I prefer C++ over Google+"
+          pt = PragmaticTokenizer::Tokenizer.new(
+              punctuation: :none,
+              clean: true
+          )
+          expect(pt.tokenize(text)).to eq(%w(i prefer c++ over google+))
+        end
+
+        it 'still splits mid-word plus' do
+          text = "I suggest to buy stocks that are low value+have momentum"
+          pt = PragmaticTokenizer::Tokenizer.new(
+              punctuation: :none
+          )
+          expect(pt.tokenize(text)).to eq(%w(i suggest to buy stocks that are low value have momentum))
+        end
+
+        it 'still removes standalone plus punctuation' do
+          text = "+++ BREAKING +++ something happened"
+          pt = PragmaticTokenizer::Tokenizer.new(
+              punctuation: :none
+          )
+          expect(pt.tokenize(text)).to eq(%w(breaking something happened))
+        end
+      end
+
       context 'option (classic_filter)' do
         it 'tokenizes a string #001' do
           # http://wiki.apache.org/solr/AnalyzersTokenizersTokenFilters#solr.ClassicFilterFactory

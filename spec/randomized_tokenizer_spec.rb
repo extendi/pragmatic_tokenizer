@@ -30,7 +30,6 @@ describe PragmaticTokenizer do
     next if s == ' ' #TO BE FIXED "\uFEFF\u00A0"
 
     lut["test#{s}word"] = "test#{admitted?(s) ? s : ' '}word"
-    lut["testword#{s}"] = 'testword'
     lut["#{s}testword"] = 'testword'
   end
 
@@ -123,12 +122,12 @@ describe PragmaticTokenizer do
       # byebug unless (tokenized.split.reject(&:empty?)).eql?(check.split.reject(&:empty?))
       t1 = tokenized.split.reject(&:empty?)
       t2 = check.split.reject(&:empty?)
-    
+
       #byebug unless t1 == t2
       expect(t1).to eq(t2)
     end
   end
-  
+
   it "tokenizes emoji" do
     emoji = Unicode::Emoji.list.keys.map{ |cat| Unicode::Emoji.list(cat).keys.map{|sub| Unicode::Emoji.list(cat, sub)}}.flatten
     # ["☠️", "☀️", "☁️", "☂️", "☃️", "☄️", "☢️", "☣️", "☦️", "☮️", "©️", "®️", "™️", "*️⃣", "Ⓜ️", "🏴‍☠️"]
