@@ -22,7 +22,7 @@ module PragmaticTokenizer
     COLON1                        = /(?:(:)([[:print:]]{2,}))/ # two non-space after colon prevent matching emoticons
     COLON2                        = /(?::)/
     COMMAS                        = /(?:([,‚])+)/
-    ENCLOSED_PLUS                 = /(?:([[:print:]]+)\+([[:print:]]+))/
+    ENCLOSED_PLUS                 = /(?:([[:print:]]+)\+([[:alnum:]][[:print:]]*))/
     EMAIL                         = /(?:[[:print:]]+[＠@][[:print:]]+\.[[:print:]]+)/
     DIGIT                         = /(?:[[:digit:]]+)/
     ASTERISK                      = /(?:\*+)/
@@ -61,7 +61,7 @@ module PragmaticTokenizer
     QUESTION_MARK_NOT_URL         = /#{NOT_URL.source}(\?)/
     # Should we change specs and also capture "/", just like we capture ":" and "?"
     SLASH_NOT_URL                 = /#{NOT_URL.source}\//
-    SHIFT_BOUNDARY_CHARACTERS     = /([;^|…«»„“¿¡≠~″“”‵‵〝〞〟〃「⌈」⌋『』+~\\\\]+)/
+    SHIFT_BOUNDARY_CHARACTERS     = /((?<![[:alnum:]+])[+]+|[;^|…«»„“¿¡≠~″“”‵‵〝〞〟〃「⌈」⌋『』~\\\\]+)/
     MULTIPLE_DOTS                 = /(\.{2,})/ # we keep all dashes
     MULTIPLE_DASHES               = /(-){2,}/ # we only keep first dash
     BRACKET                       = /([{}()\[\]])/
